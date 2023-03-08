@@ -1,0 +1,3 @@
+$rootTablespaces = (Get-ChildItem -Path C:\ -Filter "root_tablespaces_log_*" | Sort-Object LastWriteTime | Select-Object -last 1).Name
+$orclpdbTablespaces = (Get-ChildItem -Path C:\ -Filter "orclpdb_tablespaces_log_*" | Sort-Object LastWriteTime | Select-Object -last 1).Name
+Send-Mail -To "Administrator <administrator@windows.lab>" -From "Oracle DB <oracledb@windows.lab>" -Subject "Tablespaces Usage" -Attachments "C:\$rootTablespaces", "C:\$orclpdbTablespaces"

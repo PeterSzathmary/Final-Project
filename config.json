@@ -1,0 +1,29 @@
+{
+    "domainName": "windows.lab",
+    "domainServerAdminPassword": "Start123",
+    "staticIP": "10.0.0.1",
+    "computerName": "WIN-DC-001",
+    "hMailAdminPassword": "Start123",
+    "safeModeAdministratorPassword": "IWillNeverUseIt_123",
+    "dhcpScopes": [
+        {
+            "name": "Students",
+            "startRange": "10.0.0.30",
+            "endRange": "10.0.0.60",
+            "subnetMask": "255.255.255.0",
+            "scopeID": "10.0.0.0",
+            "dnsServer": "10.0.0.1"
+        }
+    ],
+    "ouStudents": "Students",
+    "defaultPasswordForStudents": "ChangeMe123",
+    "adGroups": [
+        {
+            "groupName": "SWOT Developers",
+            "groupDescription": "Members of this group are SWOT Developers"
+        }
+    ],
+    "db": {
+        "newTablespaceSize": "10M"
+    }
+}

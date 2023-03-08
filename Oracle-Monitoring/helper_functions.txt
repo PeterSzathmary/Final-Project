@@ -1,0 +1,5 @@
+-- increase temp tablespace in orclpdb container:
+alter database tempfile 'C:\app\19c\base\oradata\ORCL\orclpdb\temp01.dbf' resize 1g;
+
+-- increase temp tablespace in root container:
+alter database tempfile 'C:\app\19c\base\oradata\ORCL\temp01.dbf' resize 1g;

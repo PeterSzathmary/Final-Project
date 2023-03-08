@@ -1,0 +1,3 @@
+# get latest report
+$report = (Get-ChildItem -Path C:\ -Filter "backup_log_*" | Sort-Object LastWriteTime | Select-Object -last 1).Name
+Send-Mail -To "Administrator <administrator@windows.lab>" -From "Oracle DB <oracledb@windows.lab>" -Subject "Oracle Backup Report" -Attachments "C:\$report" -HtmlFilePath "$env:UserProfile\Desktop\Final-Project\HTML\backup_report.html" -CssFilePath "$env:UserProfile\Desktop\Final-Project\CSS\test.css"

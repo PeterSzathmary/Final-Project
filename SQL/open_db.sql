@@ -1,0 +1,9 @@
+-- Place the database in ARCHIVELOG mode
+SHUTDOWN IMMEDIATE;
+STARTUP MOUNT;
+ALTER DATABASE ARCHIVELOG;
+-- open and save pluggable database state as opened
+ALTER DATABASE OPEN;
+ALTER PLUGGABLE DATABASE orclpdb OPEN;
+ALTER PLUGGABLE DATABASE orclpdb SAVE STATE;
+exit

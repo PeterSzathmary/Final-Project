@@ -1,0 +1,6 @@
+connect target /
+# &1 -> first argument that is being passed to rman script
+# save log to the &1 path
+spool log to &1;
+delete noprompt expired backup;
+delete noprompt obsolete;

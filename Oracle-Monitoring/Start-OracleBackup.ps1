@@ -1,0 +1,1 @@
+Invoke-RMANScript -PathToRman "$env:UserProfile\Desktop\Final-Project\SQL\run_incremental_backup.rman" -FullLogPath "C:\backup_log_$(Get-Date -Format "dd-MM-yyyy-HH-mm-ss").txt"

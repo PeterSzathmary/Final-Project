@@ -1,0 +1,2 @@
+Invoke-SQLScript -PathToSql "$env:UserProfile\Desktop\Final-Project\SQL\tablespaces_info.sql" -FullLogPath "C:\root_tablespaces_log_$(Get-Date -Format "dd-MM-yyyy-HH-mm-ss").txt"
+Invoke-SQLScript -PathToSql "$env:UserProfile\Desktop\Final-Project\SQL\tablespaces_info.sql" -FullLogPath "C:\orclpdb_tablespaces_log_$(Get-Date -Format "dd-MM-yyyy-HH-mm-ss").txt" -Container "orclpdb"

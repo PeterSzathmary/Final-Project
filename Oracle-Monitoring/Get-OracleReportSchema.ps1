@@ -1,0 +1,1 @@
+Invoke-RMANScript -PathToRman "$env:UserProfile\Desktop\Final-Project\SQL\run_report_schema.rman" -FullLogPath "C:\schema_report_$(Get-Date -Format "dd-MM-yyyy-HH-mm-ss").txt"

@@ -1,0 +1,5 @@
+connect target /
+spool log to &1;
+report schema;
+spool trace off;
+exit
