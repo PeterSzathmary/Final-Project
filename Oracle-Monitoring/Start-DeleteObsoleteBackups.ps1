@@ -1,0 +1,1 @@
+Invoke-RMANScript -PathToRman "$env:UserProfile\Desktop\Final-Project\SQL\delete_obsolete_backups.rman" -FullLogPath "C:\obsolete_log_$(Get-Date -Format "dd-MM-yyyy-HH-mm-ss").txt"

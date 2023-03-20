@@ -35,7 +35,7 @@ function Install-DHCP {
             Position = 2,
             Mandatory = $true
         )]
-        [DHCPScope]
+        [object]
         $DHCPscope
     )
     

@@ -9,6 +9,10 @@
     Specify a URI to a help page, this will show when Get-Help -Online is used.
 .EXAMPLE
     Register-ScheduledTask_Custom -PathToScript "C:\script.ps1" -TaskName "Some Script Name" -At "11:30pm" -Description "some description"
+
+    Every sunday at 1:00
+    Register-ScheduledTask_Custom -PathToScript "$env:UserProfile\Desktop\Final-Project\Oracle-Monitoring\Start-OracleBackup.ps1" -TaskName 'Oracle Incremental Backup RMAN 1130pm' -At "11:30pm" -Description "It starts incremental backup." -Day "Sunday"
+
     Explanation of the function or its result. You can include multiple examples with additional .EXAMPLE lines
 #>
 function Register-ScheduledTask_Custom {
@@ -31,13 +35,19 @@ function Register-ScheduledTask_Custom {
 
         # when to run the task
         [Parameter(Position = 2, Mandatory = $true)]
-        [string]
+        [datetime]
         $At,
 
         # description of the task
         [Parameter(Position = 3, Mandatory = $false)]
         [string]
-        $Description
+        $Description,
+
+        # what day? if not specified, it will use daily
+        [Parameter(Position = 4, Mandatory = $false)]
+        [ValidateSet("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")]
+        [string]
+        $Day
     )
     
     begin {
@@ -50,7 +60,12 @@ function Register-ScheduledTask_Custom {
         }
         else {
             $Action = New-ScheduledTaskAction -Execute "Powershell.exe" -Argument $PathToScript
-            $Trigger = New-ScheduledTaskTrigger -Daily -At $At
+            if ($Day) {
+                $Trigger = New-ScheduledTaskTrigger -Weekly -At $At -WeeksInterval 1 -DaysOfWeek $Day
+            }
+            else {
+                $Trigger = New-ScheduledTaskTrigger -Daily -At $At
+            }
             Register-ScheduledTask -Action $Action -Trigger $Trigger -TaskName $TaskName -Description $Description
         }
     }

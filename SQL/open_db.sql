@@ -1,6 +1,6 @@
--- Place the database in ARCHIVELOG mode
 SHUTDOWN IMMEDIATE;
 STARTUP MOUNT;
+-- Place the database in ARCHIVELOG mode
 ALTER DATABASE ARCHIVELOG;
 -- open and save pluggable database state as opened
 ALTER DATABASE OPEN;

@@ -99,3 +99,6 @@ id,first_name,last_name,email,gender,class,team
 98,Collin,Bedham,cbedham2p@netlog.com,Male,1v,""
 99,Lurlene,Dimitresco,ldimitresco2q@thetimes.co.uk,Female,2v,swot
 100,Brooke,Towler,btowler2r@jalbum.net,Genderfluid,2v,nosr
+101,Jan,Kovac,jankovac@test.mail,Male,3v,swot
+102,Juraj,Kovac,jurajkovac@test.mail,Male,3v,swot
+103,Jana,Kovac,janakovac@test.mail,Female,3v,swot

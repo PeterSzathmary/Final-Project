@@ -36,8 +36,13 @@ function Add-EnvPath {
     begin {
         $exists = $false
 
-        if ([Environment]::GetEnvironmentVariable($VariableName, $Destination)) {
-            $exists = $true
+        $pathContent = [Environment]::GetEnvironmentVariable('Path', $Destination)
+        
+        if ($pathContent -ne $null) {
+            # "Exist in the system!"
+            if ($pathContent -split ';' -contains $Path) {
+                $exists = $true
+            }
         }
     }
         

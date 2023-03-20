@@ -34,10 +34,14 @@ function Install-OracleEnterpriseDB {
             New-Item -ItemType Directory -Force -Path $oracleDBBasePath
 
             #extract archive to c -> app -> 19c -> product
-            Write-Host -ForegroundColor Magenta "Wait until the download process of Oracle DB is finished. Start Expanding? Press ENTER to continue... " -NoNewline
-            Read-Host
-            Write-Host "Expanding..." -ForegroundColor Cyan
-            Expand-Archive "C:\Users\Administrator\Downloads\WINDOWS.X64_193000_db_home.zip" -DestinationPath $oracleDBProductPath
+            if (!(Test-Path "C:\oracle_enterprise_expanded")) {
+                Write-Host -ForegroundColor Magenta "Wait until the download process of Oracle DB is finished. Start Expanding? Press ENTER to continue... " -NoNewline
+                Read-Host
+                Write-Host "Expanding..." -ForegroundColor Cyan
+                Expand-Archive "C:\Users\Administrator\Downloads\WINDOWS.X64_193000_db_home.zip" -DestinationPath $oracleDBProductPath
+
+                New-Item -Path "C:\oracle_enterprise_expanded" -ItemType File
+            }
 
             #C:\app\19c\product\bin to path # should be already there
 

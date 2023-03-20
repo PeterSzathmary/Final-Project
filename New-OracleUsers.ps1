@@ -27,32 +27,45 @@ function New-OracleUsers {
     )
     
     begin {
-        $Path = "C:\SQL Scripts\create_users.sql"
-        # Create the file if it doesn't exist
-        if (!(Test-Path $Path)) {
-            New-Item -Path $Path -Force
+        $Flag = "db_users_created"
+        if (Test-Path "C:\$Flag") {
+            Write-Host "database users already created" -ForegroundColor Yellow
+            $Skip = $true
+        }
+        else {
+            $Path = "C:\SQL Scripts\create_users.sql"
+            # Create the file if it doesn't exist
+            if (!(Test-Path $Path)) {
+                New-Item -Path $Path -Force
+            }
         }
     }
     
     process {
-        Clear-Content $Path
+        if ($Skip -ne $true) {
+            Clear-Content $Path
 
-        # Switch to pluggable container
-        Add-Content $Path "`nALTER SESSION SET CONTAINER = orclpdb;"
+            # Switch to pluggable container
+            Add-Content $Path "`nALTER SESSION SET CONTAINER = orclpdb;"
 
-        foreach ($User in $Users) {
-            Add-Content $Path "`nCREATE USER $User IDENTIFIED BY $($User)123 DEFAULT TABLESPACE $User QUOTA UNLIMITED ON $User;"
-            Add-Content $Path "`nGRANT CREATE SESSION TO $User;"
-            Add-Content $Path "`nGRANT CREATE TABLE TO $User;"
+            foreach ($User in $Users) {
+                Add-Content $Path "`nCREATE USER $User IDENTIFIED BY $($User)123 DEFAULT TABLESPACE $User QUOTA UNLIMITED ON $User;"
+                Add-Content $Path "`nGRANT CREATE SESSION TO $User;"
+                Add-Content $Path "`nGRANT CREATE TABLE TO $User;"
+            }
+
+            # Exit from SQL*Plus
+            Add-Content $Path "`nexit"
+
+            sqlplus.exe '/ as sysdba' "@$Path"
+
+            New-Item -Path "C:\" -Name $Flag -ItemType File
         }
-
-        # Exit from SQL*Plus
-        Add-Content $Path "`nexit"
-
-        sqlplus.exe '/ as sysdba' "@$Path"
     }
     
     end {
-        Write-Host "Users successfully created" -ForegroundColor Green
+        if ($Skip -ne $true) {
+            Write-Host "Users successfully created" -ForegroundColor Green
+        }
     }
 }#New-OracleUsers

@@ -4,3 +4,4 @@ connect target /
 spool log to &1;
 delete noprompt expired backup;
 delete noprompt obsolete;
+exit;

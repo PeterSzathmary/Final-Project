@@ -38,27 +38,40 @@ function New-Tablespaces {
     )
     
     begin {
-        $Path = "C:\SQL Scripts\create_tablespaces.sql"
-        New-Item -Path $Path -Force
+        $Flag = "tablespaces_created"
+        if (Test-Path "C:\$Flag") {
+            Write-Host "tablespaces already created" -ForegroundColor Yellow
+            $Skip = $true
+        }
+        else {
+            $Path = "C:\SQL Scripts\create_tablespaces.sql"
+            New-Item -Path $Path -Force
+        }
     }
     
     process {
-        Clear-Content $Path
+        if ($Skip -ne $true) {
+            Clear-Content $Path
 
-        # Switch to pluggable container
-        Add-Content $Path "`nALTER SESSION SET CONTAINER = orclpdb;"
+            # Switch to pluggable container
+            Add-Content $Path "`nALTER SESSION SET CONTAINER = orclpdb;"
 
-        foreach ($User in $Users) {
-            Add-Content $Path "`nCREATE TABLESPACE $User DATAFILE '$($User)_data.dbf' SIZE $TablespaceSize;"
+            foreach ($User in $Users) {
+                Add-Content $Path "`nCREATE TABLESPACE $User DATAFILE '$($User)_data.dbf' SIZE $TablespaceSize;"
+            }
+
+            # Exit from SQL*Plus
+            Add-Content $Path "`nexit"
+
+            sqlplus.exe '/ as sysdba' "@$Path"
+
+            New-Item -Path "C:\" -Name $Flag -ItemType File
         }
-
-        # Exit from SQL*Plus
-        Add-Content $Path "`nexit"
-
-        sqlplus.exe '/ as sysdba' "@$Path"
     }
     
     end {
-        Write-Host "Tablespaces successfully created" -ForegroundColor Green
+        if ($Skip -ne $true) {
+            Write-Host "Tablespaces successfully created" -ForegroundColor Green
+        }
     }
 }#New-Tablespaces

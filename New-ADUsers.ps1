@@ -1,3 +1,19 @@
+function Get-User {
+    param (
+        # user
+        [string]
+        $SamUser
+    )
+    
+    Try {
+        Get-ADUser -Identity $samAccountName
+        return $True
+    }
+    Catch {
+        return $False
+    }
+}
+
 <#
 .SYNOPSIS
     Creates new AD users
@@ -49,12 +65,29 @@ function New-ADUsers {
             foreach ($student in $students) {
     
                 $samAccountName = "$($student.first_name.Substring(0, 1))$($student.last_name)".ToLower()
-            
+
+                $id = 0
+                while (Get-User -SamUser $samAccountName) {
+                    $id += 1
+                    $samAccountName = $("$("$($student.first_name.Substring(0, 1))$($student.last_name)".ToLower())$id")
+                    # Write-Host $samAccountName
+                }
+
+                # if ($id -ne 0) {
+                #     $userPrincipalName = "$($student.first_name).$("$($student.last_name)$id")@$domainName"
+                # } else {
+                #     $userPrincipalName = "$($student.first_name).$($student.last_name)@$domainName"
+                # }
+
+                $userPrincipalName = "$($student.first_name).$($student.last_name)@$domainName"
+
+                # Write-Host $userPrincipalName
+
                 New-ADUser `
                     -Name "$($student.first_name) $($student.last_name)" `
                     -GivenName "$($student.first_name)" `
                     -Surname "$($student.last_name)" `
-                    -UserPrincipalName "$($student.first_name).$($student.last_name)@$domainName" `
+                    -UserPrincipalName $userPrincipalName `
                     -SamAccountName $samAccountName `
                     -AccountPassword $DefaultPassword `
                     -Path "OU=STUDENTS,DC=WINDOWS,DC=LAB"
@@ -67,7 +100,7 @@ function New-ADUsers {
                 }
             }
     
-            New-Item -Path "C:\" -Name $Flag -ItemType File
+            # New-Item -Path "C:\" -Name $Flag -ItemType File
         }
     }
     
