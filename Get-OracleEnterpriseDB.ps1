@@ -59,23 +59,27 @@ function Get-OracleEnterpriseDB {
 
             #$downloadZIP = "/html/body/div[2]/section[3]/div/div[1]/div/table/tbody/tr/td[2]/div/a"
             # Windows x64 zip
-            $downloadZIP = "/html/body/div[2]/section[3]/div/div[2]/div/table/tbody/tr[1]/td[2]/div/a"
+            $downloadZIP = "/html/body/div[2]/section[6]/div/div/div/table/tbody/tr[1]/th/div/a"
+
+            Start-Sleep 5
 
             $chromeDriver.FindElement([OpenQA.Selenium.By]::XPath($downloadZIP)).Click()
 
-            Start-Sleep 5
+            Start-Sleep 10
 
-            $checkbox = "/html/body/div[7]/div/div[1]/div/div/div/form/ul/li/label/input"
+            $checkbox = "/html/body/div[5]/div/div[1]/div/div/div/form/ul/li/label/input"
 
             $chromeDriver.FindElement([OpenQA.Selenium.By]::XPath($checkbox)).Click()
 
-            Start-Sleep 5
+            Start-Sleep 10
 
-            $download = "/html/body/div[7]/div/div[1]/div/div/div/form/div/div[2]/div/div/a"
+            $download = "/html/body/div[5]/div/div[1]/div/div/div/form/div/div[2]/div/div/a"
+
+            Start-Sleep 5
 
             $chromeDriver.FindElement([OpenQA.Selenium.By]::XPath($download)).Click()
 
-            Start-Sleep 5
+            Start-Sleep 10
 
             $email = "//*[@id='sso_username']"
             $password = '//*[@id="ssopassword"]'
