@@ -48,10 +48,15 @@ Show-FileExtensions
 
 
 Set-StaticIP -StaticIP $config.staticIP
-Unblock-Protocol -Protocol "ICMPv4"
-Unblock-Protocol -Protocol 25 # SMTP
-Unblock-Protocol -Protocol 110 # POP3
-Unblock-Protocol -Protocol 143 # IMAP
+if ($config.protocols.Count -ne 0) {
+    for ($i = 0; $i -lt $config.protocols.Count; $i++) {
+        Unblock-Protocol -Protocol $config.protocols[$i]
+    }
+}
+# Unblock-Protocol -Protocol "ICMPv4"
+# Unblock-Protocol -Protocol 25 # SMTP
+# Unblock-Protocol -Protocol 110 # POP3
+# Unblock-Protocol -Protocol 143 # IMAP
 Unblock-Port -Direction "Inbound" -Port 1521
 
 Rename-ThisComputer -ComputerName $config.computerName
@@ -102,9 +107,6 @@ if (Test-Path "C:\computer_renamed") {
     if (!(Test-Path "C:\mozillaThunderbird_installed")) {
         C:\Users\Administrator\Downloads\mozillaThunderbird.exe -ms
         New-Item -Path "C:\" -Name "mozillaThunderbird_installed" -ItemType File
-    }
-    else {
-        Write-Host "Thunderbird already installed!" -ForegroundColor Yellow
     }
 
     if (!(Test-Path "C:\domain_profile_disabled")) {

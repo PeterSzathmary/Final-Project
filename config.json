@@ -2,6 +2,12 @@
     "domainName": "windows.lab",
     "domainServerAdminPassword": "Start123",
     "staticIP": "10.0.0.1",
+    "protocols": [
+        "ICMPv4",
+        25,
+        110,
+        143
+    ],
     "computerName": "WIN-DC-001",
     "hMailAdminPassword": "Start123",
     "safeModeAdministratorPassword": "IWillNeverUseIt_123",
